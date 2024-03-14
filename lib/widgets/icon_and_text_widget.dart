@@ -1,3 +1,4 @@
+import 'package:deliveries_app/utils/dimensions.dart';
 import 'package:deliveries_app/widgets/small_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,7 @@ class IconAndTextWidget extends StatelessWidget {
         Icon(
           icon,
           color: iconColor,
+          size: Dimensions.iconSize24,
         ),
         SizedBox(width: 5,),
         SmallText(text: text,)
