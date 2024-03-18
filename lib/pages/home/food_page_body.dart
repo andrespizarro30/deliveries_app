@@ -132,8 +132,8 @@ class _FoodBodyPageState extends State<FoodBodyPage> {
                             image: DecorationImage(
                               fit: BoxFit.cover,
                               image: NetworkImage(
-                                  AppConstants.BASE_URL + AppConstants.UPLOAD_URL + recommendedProduct.img!
-                                //popularProducts.img!
+                                  //AppConstants.BASE_URL + AppConstants.UPLOAD_URL + recommendedProduct.img!
+                                  recommendedProduct.img!
                               )
                             )
                           ),
@@ -226,8 +226,8 @@ class _FoodBodyPageState extends State<FoodBodyPage> {
                 //color: index.isEven?Color(0xFF69c5df):Color(0xFF9294cc),
                 image: DecorationImage(
                   image: NetworkImage(
-                      AppConstants.BASE_URL + AppConstants.UPLOAD_URL + popularProducts.img!
-                      //popularProducts.img!
+                      //AppConstants.BASE_URL + AppConstants.UPLOAD_URL + popularProducts.img!
+                      popularProducts.img!
                   ),
                   fit: BoxFit.cover
                 )

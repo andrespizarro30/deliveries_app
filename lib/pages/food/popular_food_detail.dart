@@ -43,8 +43,8 @@ class PopularFoodDetail extends StatelessWidget {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: NetworkImage(
-                        AppConstants.BASE_URL + AppConstants.UPLOAD_URL + product.img!
-                      //popularProducts.img!
+                        //AppConstants.BASE_URL + AppConstants.UPLOAD_URL + product.img!
+                      product.img!
                     ),
                     fit: BoxFit.cover
                   )
