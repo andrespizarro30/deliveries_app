@@ -1,38 +1,54 @@
+import 'package:deliveries_app/controllers/recommended_product_controller.dart';
 import 'package:deliveries_app/utils/colors.dart';
 import 'package:deliveries_app/widgets/app_icon.dart';
 import 'package:deliveries_app/widgets/big_text.dart';
 import 'package:deliveries_app/widgets/expandable_text_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+import '../../models/products_model.dart';
+import '../../routes/route_helper.dart';
+import '../../utils/app_constants.dart';
 import '../../utils/dimensions.dart';
 
-class RecommendedFoodDetail extends StatefulWidget {
-  const RecommendedFoodDetail({super.key});
+class RecommendedFoodDetail extends StatelessWidget {
 
-  @override
-  State<RecommendedFoodDetail> createState() => _RecommendedFoodDetailState();
-}
+  int pageId;
 
-class _RecommendedFoodDetailState extends State<RecommendedFoodDetail> {
+  RecommendedFoodDetail({
+    super.key,
+    required this.pageId
+  });
+
   @override
   Widget build(BuildContext context) {
+
+    var product = Get.find<RecommendedProductController>().recommendedProductList[pageId] as ProductsModel;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: CustomScrollView(
         slivers: [
-          SliverAppBar(toolbarHeight: Dimensions.height40*2,
+          SliverAppBar(
+            automaticallyImplyLeading: false,
+            toolbarHeight: Dimensions.height40*2,
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ApplIcon(icon: Icons.clear),
+                GestureDetector(
+                  child: ApplIcon(icon: Icons.clear),
+                  onTap: (){
+                    Get.toNamed(RouteHelper.getInitial());
+                  },
+                ),
                 ApplIcon(icon: Icons.shopping_cart_outlined)
               ],
             ),
             bottom: PreferredSize(
               preferredSize: Size.fromHeight(Dimensions.height40),
               child: Container(
-                child: Center(child: BigText(text: "Indian Side",size: Dimensions.font26,)),
+                child: Center(child: BigText(text: product.name!,size: Dimensions.font26,)),
                 width: double.maxFinite,
                 padding: EdgeInsets.only(top:5,bottom: 5),
                 decoration: BoxDecoration(
@@ -48,11 +64,10 @@ class _RecommendedFoodDetailState extends State<RecommendedFoodDetail> {
             backgroundColor: Colors.orangeAccent,
             expandedHeight: 300,
             flexibleSpace: FlexibleSpaceBar(
-              background: Image.asset(
-                  "assets/image/food4.jpg",
-                  width: double.maxFinite,
+              background: Image.network(
+                  AppConstants.BASE_URL + AppConstants.UPLOAD_URL + product.img!,
                   fit: BoxFit.cover,
-              ),
+              )
             ),
           ),
           SliverToBoxAdapter(
@@ -61,7 +76,7 @@ class _RecommendedFoodDetailState extends State<RecommendedFoodDetail> {
                 children: [
                   Container(
                     margin: EdgeInsets.only(left: Dimensions.width20,right: Dimensions.height20),
-                    child: ExpandableText(text: "Chicken korma is a luxurious and aromatic dish that hails from the Indian subcontinent, known for its rich flavors and creamy texture. Traditionally, it features tender pieces of chicken cooked in a velvety sauce infused with a blend of spices and thickened with cream or yogurt. Here's a detailed description of this delectable dish:                          Appearance: pon serving, chicken korma presents itself as a luscious ensemble of golden-hued chicken pieces nestled in a creamy, slightly off-white sauce. The sauce coats the chicken, providing a glossy sheen that hints at its richness. Aroma: The aroma of chicken korma is nothing short of captivating. As it wafts through the air, one is greeted by a harmonious blend of fragrant spices such as cardamom, cinnamon, cloves, and nutmeg, all mingling with the subtle sweetness of onions and the earthiness of garlic and ginger. The scent is warm, inviting, and deeply comforting. Texture: The texture of chicken korma is a key element of its appeal. The chicken itself is tender and succulent, having absorbed the flavors of the sauce during the cooking process. The sauce, on the other hand, is smooth and creamy, with a luxurious mouthfeel that is both velvety and indulgent. Slivers of almonds or cashews may be scattered throughout, adding a delightful crunch to each bite. Flavor Profile: The flavor profile of chicken korma is a complex symphony of tastes that dance across the palate. At first bite, one experiences a subtle sweetness, derived from caramelized onions and perhaps a hint of honey or sugar. This sweetness is quickly balanced by the savory notes of the spices, which impart warmth and depth to the dish. The creaminess of the sauce lends a luxurious richness, while the addition of yogurt or coconut milk provides a subtle tanginess that cuts through the richness, keeping the flavors well-rounded and balanced. Accompaniments: Chicken korma is often served alongside fragrant basmati rice, which serves as the perfect canvas for soaking up the decadent sauce. Naan or roti, traditional Indian breads, are also popular accompaniments, offering a satisfying contrast in texture and flavor. A garnish of fresh cilantro or chopped nuts adds a final touch of freshness and crunch to the dish. Overall, chicken korma is a dish that delights the senses with its enticing aroma, sumptuous texture, and complex yet harmonious flavors. It is a true culinary indulgence, perfect for special occasions or whenever one craves a taste of luxury.")
+                    child: ExpandableText(text: product.description!)
                   )
                 ],
               ),
@@ -88,7 +103,7 @@ class _RecommendedFoodDetailState extends State<RecommendedFoodDetail> {
                   backgroundColor: AppColors.mainColor,
                   iconSize: Dimensions.iconSize24,
                 ),
-                BigText(text: "\$12.88"+" x "+"0",color: AppColors.mainBlackColor,size: Dimensions.font26,),
+                BigText(text: "\$ ${product.price}"+" x "+"0",color: AppColors.mainBlackColor,size: Dimensions.font26,),
                 ApplIcon(
                   icon: Icons.add,
                   iconColor: Colors.white,
@@ -121,7 +136,7 @@ class _RecommendedFoodDetailState extends State<RecommendedFoodDetail> {
                 ),
                 Container(
                   padding: EdgeInsets.only(top: Dimensions.height20,bottom: Dimensions.height20,right: Dimensions.width20,left: Dimensions.width20),
-                  child: BigText(text: "\$10 | Add to cart", color: Colors.white,),
+                  child: BigText(text: "\$ ${product.price} | Add to cart", color: Colors.white,),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(Dimensions.radius20),
                       color: AppColors.mainColor
