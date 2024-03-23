@@ -21,10 +21,12 @@ import '../../widgets/small_text.dart';
 class PopularFoodDetail extends StatelessWidget {
 
   int pageId;
+  String page;
 
   PopularFoodDetail({
     super.key,
-    required this.pageId
+    required this.pageId,
+    required this.page
   });
 
   @override
@@ -62,15 +64,21 @@ class PopularFoodDetail extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   GestureDetector(
-                    onTap:(){
-                      Get.toNamed(RouteHelper.getInitial());
+                    child: ApplIcon(icon: Icons.clear),
+                    onTap: (){
+                      if(page=='cartPage'){
+                        Get.toNamed(RouteHelper.getCartPage());
+                      }else{
+                        Get.toNamed(RouteHelper.getInitial());
+                      }
                     },
-                    child: ApplIcon(icon: Icons.arrow_back_ios)
                   ),
                   GetBuilder<PopularProductController>(builder: (controller){
                     return GestureDetector(
                       onTap: (){
-                        Get.to(()=>CartPage());
+                        if(controller.totalItems>=1){
+                          Get.toNamed(RouteHelper.getCartPage());
+                        }
                       },
                       child: Stack(
                         children: [

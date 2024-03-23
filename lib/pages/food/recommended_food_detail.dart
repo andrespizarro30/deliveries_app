@@ -19,10 +19,12 @@ import '../../widgets/small_text.dart';
 class RecommendedFoodDetail extends StatelessWidget {
 
   int pageId;
+  String page;
 
   RecommendedFoodDetail({
     super.key,
-    required this.pageId
+    required this.pageId,
+    required this.page
   });
 
   @override
@@ -44,13 +46,19 @@ class RecommendedFoodDetail extends StatelessWidget {
                 GestureDetector(
                   child: ApplIcon(icon: Icons.clear),
                   onTap: (){
-                    Get.toNamed(RouteHelper.getInitial());
+                    if(page=='cartPage'){
+                      Get.toNamed(RouteHelper.getCartPage());
+                    }else{
+                      Get.toNamed(RouteHelper.getInitial());
+                    }
                   },
                 ),
                 GetBuilder<PopularProductController>(builder: (controller){
                   return GestureDetector(
                     onTap: (){
-                      Get.to(()=>CartPage());
+                      if(controller.totalItems>=1){
+                        Get.toNamed(RouteHelper.getCartPage());
+                      }
                     },
                     child: Stack(
                       children: [
@@ -99,7 +107,7 @@ class RecommendedFoodDetail extends StatelessWidget {
                 ),
               ),
             ),
-            pinned: true,
+            pinned: false,
             backgroundColor: Colors.orangeAccent,
             expandedHeight: 300,
             flexibleSpace: FlexibleSpaceBar(
